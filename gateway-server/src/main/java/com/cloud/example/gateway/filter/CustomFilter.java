@@ -24,6 +24,9 @@ public class CustomFilter implements GatewayFilter,Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+      
+
+
         return this.delegate.filter(exchange, chain);
     }
 

@@ -14,6 +14,12 @@
     <modules>
         <module>resource-server</module>
         <module>gateway-server</module>
+        <module>cloud-core-common</module>
+        <module>user-server</module>
+        <module>eureka-server</module>
+        <module>sleuth-server</module>
+        <module>config-server</module>
+        <module>hystrix-turbine-server</module>
     </modules>
 
     <properties>

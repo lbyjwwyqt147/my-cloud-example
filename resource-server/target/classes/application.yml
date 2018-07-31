@@ -1,0 +1,19 @@
+server:
+  port: 18082
+
+spring:
+  application:
+    name: resource-server    # 应用名称
+
+  cloud:
+  # 向consul 注册中心注册服务
+    consul:
+      host: 101.132.136.225
+      port: 8500
+      discovery:
+        healthCheckPath: ${management.contextPath}/health
+        healthCheckInterval: 15s
+        instance-id: resource-server
+
+
+
