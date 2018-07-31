@@ -35,6 +35,10 @@
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
@@ -44,7 +48,12 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.47</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.cloud.example</groupId>
+            <artifactId>cloud-core-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
