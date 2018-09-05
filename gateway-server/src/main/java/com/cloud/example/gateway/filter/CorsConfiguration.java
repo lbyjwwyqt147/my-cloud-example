@@ -57,6 +57,6 @@ public class CorsConfiguration {
    /* @Bean
     public RouteDefinitionLocator discoveryClientRouteDefinitionLocator(DiscoveryClient discoveryClient) {
         return new DiscoveryClientRouteDefinitionLocator(discoveryClient);
-    }*/
+    } */
 
 }

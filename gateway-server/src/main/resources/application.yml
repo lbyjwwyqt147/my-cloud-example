@@ -1,24 +1,46 @@
+server:
+  port: 18081
+
 spring:
   application:
     name: gateway-server
+  redis:
+    host: 127.0.0.1
+    port: 6379
   cloud:        # spring cloud gateway 路由配置方式
     gateway:
       discovery:      #是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
         locator:      #路由访问方式：http://Gateway_HOST:Gateway_PORT/大写的serviceId/**，其中微服务应用名默认大写访问。
           enabled: true
-      routes:
-      - id: RESOURCE-SERVER        #网关路由到资源服务resource-server
-        uri: lb://RESOURCE-SERVER
-        predicates:
-          - Path=/v1/resource/**
-      - id: USER-SERVER         #网关路由到用户服务user-server
-        uri: lb://USER-SERVER
-        predicates:
-          - Pach=/v1/user/**
+      default-filters:
+        routes:
+          - id: RESOURCE-SERVER        #  /RESOURCE-SERVER 为前缀的请求，并将请求转发到resource-server服务 网关路由到资源服务resource-server
+            uri: lb://RESOURCE-SERVER
+            predicates:
+            - Path=${server.servlet.context-path}/v1/resource/**
+            filters:
+            - StripPrefix=1
+          - id: USER-SERVER         #   /USER-SERVER 为前缀的请求，并将请求转发到user-server 服务  网关路由到用户服务user-server
+            uri: lb://USER-SERVER
+            predicates:
+            - Pach=${server.servlet.context-path}/v1/user/**
+            filters:
+            - StripPrefix=1
+            - name: RequestRateLimiter   #限流过滤器  filter名称必须是RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10   #允许用户每秒处理多少个请求
+                redis-rate-limiter.burstCapacity: 20   # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+                key-resolver: "#{@ipKeyResolver}"        # 使用SpEL按名称引用bean
+            - name: Retry   # Retry重试
+              args:
+                retries: 3 #重试次数，默认3，不包含本次
+                status: 404 #重试response code，默认没有
+                statusSeries: 500 #重试response code的系列，100（info），200（success），300（redirect），400（client error），500（server error），默认500
+                method: GET #重试的request请求，默认GET
 
-server:
-  port: 18081
 
+
+#设置断路由的超时时间，毫秒
 
 logging:
   level:
