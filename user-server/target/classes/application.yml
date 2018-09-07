@@ -5,6 +5,25 @@ server:
 spring:
   application:
     name: user-server
+  # zipkin:
+  #  base-url: http://192.168.213.130:9411       # 指定zipkin server的地址
+
+# 解决　使用 hystrix-dashboard 进行监控的时候启动报错”path”:”/actuator/hystrix.stream”,”status”:404,”error”:”Not Found”　　在被监控的微服务的bootstrap.yml文件中加入如下配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+
+
+
+
+
+
+
 
 eureka:
   client:
